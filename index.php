@@ -56,6 +56,7 @@ if(isset($_POST['players'])){
 
     $_SESSION["gamecode"] = $gamecode;
     $_SESSION['name'] = $name;
+    $_SESSION['passcode'] = $passcode;
 
     header("Location: gamepage.php"); /* Redirect browser */
     exit();

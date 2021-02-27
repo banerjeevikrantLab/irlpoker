@@ -1,4 +1,5 @@
 <?php
+
 $servername = "localhost";
 $username1 = "newuser";
 $password = "password";
@@ -118,11 +119,11 @@ $( document ).ready(function() {
             if(turn == 2){
                 $("#btngo").html('river');
             }else{
-                $("#btngo").html('new round');
+                $("#btngo").html('river');
             }
         }
         else {
-            
+            $("#btngo").html('new round');
         }
 
     });

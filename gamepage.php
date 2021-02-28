@@ -1,21 +1,7 @@
 <?php
-$servername = "localhost";
-$username1 = "newuser";
-$password = "password";
-$dbname = "irlpoker";
-
-// Create connection
-$conn = new mysqli($servername, $username1, $password, $dbname);
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-} 
+include "connect.php";
 
 session_start();
-
-echo $_SESSION["gamecode"];
-echo $_SESSION["name"];
-echo $_SESSION["passcode"];
 
 $gamecode = $_SESSION["gamecode"];
 $passcode = $_SESSION["passcode"];
@@ -38,8 +24,6 @@ if ($count == 1) {
     
 } 
 
-echo $cards;
-
 ?>
 <!DOCTYPE html>
 <html>
@@ -48,9 +32,19 @@ echo $cards;
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 
+<style>
+#cardsdiv{
+    margin: auto;
+    width: 355px;
+    border: 3px solid #73AD21;
+    padding: 10px;
+    margin-top: 50px;
+}
+</style>
+
 </head>
 
-<body>
+<body style="background-color:#4b9b48">
 <div id="cardsdiv">
 </div>
 
@@ -88,7 +82,7 @@ $( document ).ready(function() {
             card2Last = card2;
 
         });
-    }, 2000);
+    }, 500);
 });
 
 </script>

@@ -1,16 +1,5 @@
 <?php
-
-$servername = "localhost";
-$username1 = "newuser";
-$password = "password";
-$dbname = "irlpoker";
-
-// Create connection
-$conn = new mysqli($servername, $username1, $password, $dbname);
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-} 
+include "connect.php";
 
 session_start();
 
@@ -47,6 +36,7 @@ $sqlcommand = "SELECT * FROM game WHERE `gameid`=$gamecode";
     font-weight:bold;
 	padding:16px 31px;
 	text-decoration:none;
+    margin-left: 50px;
 }
 .btngo:hover {
 	background-color:#f0942b;
@@ -55,6 +45,21 @@ $sqlcommand = "SELECT * FROM game WHERE `gameid`=$gamecode";
 	position:relative;
 	top:1px;
 }
+
+.my-4{
+    margin-left: 50px;
+    margin-top: 30px;
+    margin-right: 50px;
+}
+
+#cardsdiv{
+    margin: auto;
+    width: 875px;
+    border: 3px solid #73AD21;
+    padding: 10px;
+    margin-top: 50px;
+    height: 276px;
+}
 </style>
 </head>
 
@@ -62,7 +67,7 @@ $sqlcommand = "SELECT * FROM game WHERE `gameid`=$gamecode";
 <h3 class="my-4" style="color:white">poker table</h3>
 <hr class="my-4" />
 
-<button href="#" class="btngo" id="btngo">flop</button>
+<button href="#" class="btngo" id="btngo">start game</button>
 
 <div id="cardsdiv">
 
@@ -77,10 +82,8 @@ var cards = ["AH", "2H", "3H", "4H", "5H", "6H", "7H", "8H", "9H", "10H", "JH", 
 
 
 var turn = 0;
-var cardsShown = [];
 
 $( document ).ready(function() {
-
 
     $('#btngo').click(function () {
 
@@ -93,13 +96,14 @@ $( document ).ready(function() {
 
                     
                     $.post("dealcards.php", {player: i, card: randCard, cardnum: j}, function(result){
-                        //$(body).html("Dealt cards");
+
                     });
                     
                     cards.splice(rand,1);
                     
                 }
             }
+            $("#btngo").html('flop');
             turn++;
         }
         else if(turn == 1){
@@ -111,19 +115,22 @@ $( document ).ready(function() {
             }
             $("#btngo").html('turn');
             turn++
-        } else if(turn < 4){
-                var randCard = Math.floor(Math.random() * cards.length);
-                addCard(cards[randCard]);
-                cards.splice(randCard,1);
+        } else if(turn == 2){
+            var randCard = Math.floor(Math.random() * cards.length);
+            addCard(cards[randCard]);
+            cards.splice(randCard,1);
+            $("#btngo").html('river');
             turn++;
-            if(turn == 2){
-                $("#btngo").html('river');
-            }else{
-                $("#btngo").html('river');
-            }
         }
-        else {
+        else if(turn == 3) {
+            var randCard = Math.floor(Math.random() * cards.length);
+            addCard(cards[randCard]);
+            cards.splice(randCard,1);
             $("#btngo").html('new round');
+            turn++;
+        }
+        else{
+            location.reload();
         }
 
     });

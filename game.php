@@ -93,11 +93,14 @@ $( document ).ready(function() {
                     
                     var rand = Math.floor(Math.random() * cards.length);
                     var randCard = cards[rand];
-
                     
                     $.post("dealcards.php", {player: i, card: randCard, cardnum: j}, function(result){
 
                     });
+
+                    for (var k = 0; k < 100; k++){
+                        console.log(" ");
+                    }
                     
                     cards.splice(rand,1);
                     

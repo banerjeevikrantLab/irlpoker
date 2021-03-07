@@ -3,8 +3,15 @@ include "connect.php";
 
 session_start();
 
-$gamecode = $_SESSION["gamecode"];
-$passcode = $_SESSION["passcode"];
+if(isset($_SESSION['gamecode'])){
+    $gamecode = $_SESSION["gamecode"];
+    $gameid = $_SESSION["id"];
+
+    if($gameid != 0){
+        header("Location: index.php"); 
+        exit();
+    }
+}
 
 $sqlcommand = "SELECT * FROM users WHERE `passcode`=$passcode";
 $query = $conn->query($sqlcommand) or die(mysql_error());

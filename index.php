@@ -3,52 +3,64 @@ include "connect.php";
 
 session_start();
 
-if(isset($_POST['players'])){
-    $gamecode = $_POST['gamecode'];
-    $players = $_POST['players'];
+/*
+if(isset($_SESSION['gamecode'])){
+    $id = $_SESSION["id"];
 
-    $sqlcommand = "INSERT INTO `game` (`gameid`, `players`) VALUES ($gamecode, $players)";
+    if($id == 0){
+        header("Location: gamepage.php"); 
+        exit();
+    }else{
+        header("Location: game.php"); 
+        exit();
+    }
+
+}
+*/
+
+if(isset($_POST['gamepin'])){
+    $gamepin = $_POST['gamepin'];
+
+    $sqlcommand = "INSERT INTO `game` (`gamepin`, `players`) VALUES ($gamepin, 1)";
     $query = $conn->query($sqlcommand) or die(mysql_error());
-}else if(isset($_POST['name'])){
+    $gamecode = $conn->insert_id;
+
+    $_SESSION["gamecode"] = $gamecode;
+    $_SESSION['id'] = 0;
+
+    header("Location: gamepage.php"); /* Redirect browser */
+    exit();
+
+} else if(isset($_POST['name'])){
     $name = $_POST['name'];
     $gamecode = $_POST['gamecode'];
-    $passcode = $_POST['passcode'];
+    $gamepin = $_POST['gamepin2'];
 
-    $sqlcommand = "INSERT INTO `users` (`name`, `passcode`, `gamecode`) VALUES ('$name', $passcode, $gamecode)";
+    $sqlcommand = "INSERT INTO `users` (`name`) VALUES ('$name')";
     $query = $conn->query($sqlcommand) or die(mysql_error());
+    $yourId = $conn->insert_id;
 
-    $sqlcommand = "SELECT * FROM users WHERE `passcode`=$passcode";
+    $sqlcommand = "SELECT * FROM game WHERE `id`='$gamecode' AND `gamepin`='$gamepin'";
     $query = $conn->query($sqlcommand) or die(mysql_error());
     $count = $query->num_rows; 
 	if ($count == 1) {
 		$row = $query->fetch_assoc();
-        $yourid = $row['id'];
+        $players = $row['players'];
+        $newPlayers = $players + 1;
+        $playersIdString = "player".$players."id";
+
+        $sqlcommand = "UPDATE game SET $playersIdString='$yourId', `players`='$newPlayers' WHERE `id`=$gamecode";
+        $query = $conn->query($sqlcommand) or die(mysql_error());
+
     }
     
-    $sqlcommand = "SELECT * FROM game WHERE `gameid`=$gamecode";
-    $query = $conn->query($sqlcommand) or die(mysql_error());
-    $count = $query->num_rows; 
-	if ($count == 1) {
-		$row = $query->fetch_assoc();
-        $playersid = $row['playersid'];
-        
-        if($playersid != ""){
-            $playersString = $playersid . ", ". $yourid;
-        }else{
-            $playersString = $yourid;
-        }
-
-        echo $playersString;
-    }
-
-    $sqlcommand = "UPDATE game SET `playersid`='$playersString' WHERE `gameid`=$gamecode";
-    $query = $conn->query($sqlcommand) or die(mysql_error());
 
     $_SESSION["gamecode"] = $gamecode;
     $_SESSION['name'] = $name;
+    $_SESSION['id'] = $yourId;
     $_SESSION['passcode'] = $passcode;
 
-    header("Location: gamepage.php"); /* Redirect browser */
+    header("Location: game.php"); /* Redirect browser */
     exit();
 }
 
@@ -137,15 +149,15 @@ if(isset($_POST['players'])){
         <form action="#" method="POST" class="m-auto" style="max-width:600px">
             <h3 class="my-4">welcome to IRLPoker</h3>
             <hr class="my-4" />
-            <div class="form-group mb-3 row"><label for="gamecode2" class="col-md-5 col-form-label">gamecode</label>
-                <div class="col-md-7"><input type="text" class="form-control form-control-lg" id="gamecode2" name="gamecode" required><small class="form-text text-muted"> 6 digits code</small></div>
+            <div class="form-group mb-3 row"><label for="gamepin" class="col-md-5 col-form-label">gamepin</label>
+                <div class="col-md-7"><input type="text" class="form-control form-control-lg" id="gamecode2" name="gamepin" required><small class="form-text text-muted"> create 6 digits pin</small></div>
             </div>
             <div class="form-group mb-3 row"><label for="-players4" class="col-md-5 col-form-label"># players</label>
                 <div class="col-md-7"><input type="text" class="form-control form-control-lg" id="-players4" name="players" required><small class="form-text text-muted"> max 9</small></div>
             </div>
             <hr class="my-4" />
             <div class="form-group mb-3 row"><label for="join7" class="col-md-5 col-form-label"></label>
-                <div class="col-md-7"><button class="btn btn-primary btn-lg" type="submit">join</button></div>
+                <div class="col-md-7"><button class="btn btn-primary btn-lg" type="submit">start</button></div>
             </div>
         </form>
     </div>
@@ -160,8 +172,8 @@ if(isset($_POST['players'])){
             <div class="form-group mb-3 row"><label for="gamecode3" class="col-md-5 col-form-label">gamecode</label>
                 <div class="col-md-7"><input type="text" class="form-control form-control-lg" id="gamecode3" name="gamecode" required><small class="form-text text-muted"> 6 digits code</small></div>
             </div>
-            <div class="form-group mb-3 row"><label for="personal-passcode5" class="col-md-5 col-form-label">personal passcode</label>
-                <div class="col-md-7"><input type="text" class="form-control form-control-lg" id="personal-passcode5" name="passcode" required><small class="form-text text-muted"> create any 6 digits code</small></div>
+            <div class="form-group mb-3 row"><label for="personal-passcode5" class="col-md-5 col-form-label">gamepin</label>
+                <div class="col-md-7"><input type="text" class="form-control form-control-lg" id="personal-passcode5" name="gamepin2" required><small class="form-text text-muted"> 6 digits pin</small></div>
             </div>
             <hr class="my-4" />
             <div class="form-group mb-3 row"><label for="join8" class="col-md-5 col-form-label"></label>

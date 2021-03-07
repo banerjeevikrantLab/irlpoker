@@ -1,7 +1,7 @@
 <?php
 $servername = "localhost";
-$username1 = "newuser";
-$password = "password";
+$username1 = "root";
+$password = "VB123yoyo1D";
 $dbname = "irlpoker";
 
 // Create connection

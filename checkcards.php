@@ -4,11 +4,11 @@ include "connect.php";
 session_start();
 
 $gamecode = $_SESSION["gamecode"];
-$passcode = $_SESSION["passcode"];
+
 $player = isset($_POST['player']) ? $_POST['player']: null;
 
 
-$sqlcommand = "SELECT * FROM game WHERE `gameid`=$gamecode";
+$sqlcommand = "SELECT * FROM game WHERE `id`=$gamecode";
 $query = $conn->query($sqlcommand) or die(mysql_error());
 $count = $query->num_rows; 
 if ($count == 1) {

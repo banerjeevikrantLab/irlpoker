@@ -50,5 +50,6 @@ for($i = 0; $i < 5; $i++){
 $sqlcommand = "UPDATE game SET community='$communitycards' WHERE `id`=$gamecode";
 $query = $conn->query($sqlcommand) or die(mysql_error());
 
+echo $communitycards;
 
 ?>

@@ -5,31 +5,19 @@ session_start();
 
 if(isset($_SESSION['gamecode'])){
     $gamecode = $_SESSION["gamecode"];
-    $gameid = $_SESSION["id"];
+    $yourid = $_SESSION["id"];
 
-    if($gameid != 0){
-        header("Location: index.php"); 
+    if($yourid == 0){
+        header("Location: game.php"); 
         exit();
     }
+    $playernum = $_SESSION["playernum"];
+    $name = $_SESSION["name"];
+
+}else{
+    header("Location: index.php"); 
+    exit();
 }
-
-$sqlcommand = "SELECT * FROM users WHERE `passcode`=$passcode";
-$query = $conn->query($sqlcommand) or die(mysql_error());
-$count = $query->num_rows; 
-if ($count == 1) {
-    $row = $query->fetch_assoc();
-    $playernum = $row['playernum'];
-}
-
-
-$sqlcommand = "SELECT * FROM game WHERE `gameid`=$gamecode";
-$query = $conn->query($sqlcommand) or die(mysql_error());
-$count = $query->num_rows; 
-if ($count == 1) {
-    $row = $query->fetch_assoc();
-    $cards = $row['player'.$playernum];
-    
-} 
 
 ?>
 <!DOCTYPE html>
@@ -67,6 +55,7 @@ $( document ).ready(function() {
         
         $.post("checkcards.php", {player: "<?php echo 'player'.$playernum ?>"}, function(result){
             var cards = result;
+            console.log(result);
 
             var cardsRes = cards.split(",");
 

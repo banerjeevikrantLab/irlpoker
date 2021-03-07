@@ -15,6 +15,9 @@ if(isset($_SESSION['gamecode'])){
         exit();
     }
 
+}else{
+    header("Location: index.php"); 
+    exit();
 }
 */
 
@@ -26,7 +29,7 @@ if(isset($_POST['gamepin'])){
     $gamecode = $conn->insert_id;
 
     $_SESSION["gamecode"] = $gamecode;
-    $_SESSION['id'] = 0;
+    $_SESSION["id"] = 0;
 
     header("Location: gamepage.php"); /* Redirect browser */
     exit();
@@ -58,7 +61,7 @@ if(isset($_POST['gamepin'])){
     $_SESSION["gamecode"] = $gamecode;
     $_SESSION['name'] = $name;
     $_SESSION['id'] = $yourId;
-    $_SESSION['passcode'] = $passcode;
+    $_SESSION['playernum'] = $players;
 
     header("Location: game.php"); /* Redirect browser */
     exit();

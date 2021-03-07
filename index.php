@@ -61,13 +61,8 @@ if(isset($_POST['players'])){
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <style>
 
-body{
-    padding: 20px;
-}
-.btnstart {
-	background-color:#44c767;
-	border-radius:28px;
-	border:2px solid #18ab29;
+.btn{
+    border-radius:28px;
 	display:inline-block;
 	cursor:pointer;
     font-weight:bold;
@@ -76,6 +71,16 @@ body{
 	font-size:14px;
 	padding:16px 31px;
 	text-decoration:none;
+    margin-top: 20px;
+}
+.btn:hover{
+    color: white;
+}
+
+.btnstart {
+	background-color:#44c767;
+    border:2px solid #18ab29;
+    margin-left: 25px;
 }
 .btnstart:hover {
 	background-color:#5cbf2a;
@@ -86,16 +91,8 @@ body{
 }
 .btnjoin {
 	background-color:#faaa55;
-	border-radius:28px;
 	border:2px solid #f59520;
-	display:inline-block;
-	cursor:pointer;
-	color:#ffffff;
-	font-family:Verdana;
-	font-size:14px;
-    font-weight:bold;
-	padding:16px 31px;
-	text-decoration:none;
+    margin-left: 5px;
 }
 .btnjoin:hover {
 	background-color:#f0942b;
@@ -105,18 +102,38 @@ body{
 	top:1px;
 }
 
+.header{
+    position: relative;
+    background-color: #205821;
+    height: 70px;
+}
 
+.title{
+    color: white;
+    font-size: 43px;
+    font-family: Verdana;
+    padding: 30px;
+}
+
+.form{
+    margin-left: 30px;
+    margin-top: 10px;
+}
        
 </style>
 </head>
 
 <body>
 
-<div class="container">
-    <button href="#" class="btnstart" id="btnstart">Start New Game</button>
-    <button href="#" class="btnjoin" id="btnjoin">Join a Game</button>
+<div class="">
+    <div class="header">
+        <span class="title">irlpoker.net</span>
+    </div>
 
-    <div id="form-start" style="display: none;">
+    <button href="#" class="btn btnstart" id="btnstart">Start New Game</button>
+    <button href="#" class="btn btnjoin" id="btnjoin">Join a Game</button>
+
+    <div class="form form-start" style="display: none;">
         <form action="#" method="POST" class="m-auto" style="max-width:600px">
             <h3 class="my-4">welcome to IRLPoker</h3>
             <hr class="my-4" />
@@ -133,7 +150,7 @@ body{
         </form>
     </div>
 
-    <div id="form-join" style="display: none;">
+    <div class="form form-join" style="display: none;">
         <form class="m-auto" action="#" method="POST" style="max-width:600px">
             <h3 class="my-4">welcome to IRLPoker</h3>
             <hr class="my-4" />
@@ -160,12 +177,12 @@ body{
 
 $('#btnstart, #btnjoin').click(function () {
     if (this.id == 'btnstart') {
-        $("#form-join").hide();
-        $("#form-start").show();
+        $(".form-join").hide();
+        $(".form-start").show();
     }
     else if (this.id == 'btnjoin') {
-        $("#form-start").hide();
-        $("#form-join").show();
+        $(".form-start").hide();
+        $(".form-join").show();
     }
 });
 

@@ -11,6 +11,8 @@ if(isset($_SESSION['gamecode'])){
         header("Location: gamepage.php"); 
         exit();
     }
+    $gamepin = $_SESSION["gamepin"];
+
 }else{
     header("Location: index.php"); 
     exit();
@@ -66,6 +68,8 @@ if(isset($_SESSION['gamecode'])){
 
 <body style="background-color:#4b9b48">
 <h3 class="my-4" style="color:white">poker table</h3>
+<hr class="my-4" />
+<h6 class="my-4" style="color:white">gamecode: <?php echo $gamecode; ?>, gamepin: <?php echo $gamepin; ?></h6>
 <hr class="my-4" />
 
 <button href="#" class="btngo" id="btngo">start game</button>
